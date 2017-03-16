@@ -7,7 +7,7 @@ import numpy as np
 import json
 
 ############################ GLOBAL VARIABLES ################################
-DATA_FILE = 'img_data.pkl'
+DATA_FILE = 'img_data.pkl' # how to save images to pkl
 SAVED_WEIGHTS = "Class_4.h5"
 NUM_CLASS = 4
 NUM_TRAIN_IMG = 2550
