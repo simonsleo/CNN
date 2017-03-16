@@ -5,6 +5,9 @@ from keras.optimizers import SGD
 import pickle
 import numpy as np
 import json
+from keras import backend as K ##https://github.com/fchollet/keras/issues/2681
+
+K.set_image_dim_ordering('th')
 
 ############################ GLOBAL VARIABLES ################################
 DATA_FILE = 'img_data.pkl' # how to save images to pkl
