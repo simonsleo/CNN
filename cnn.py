@@ -7,10 +7,9 @@ import numpy as np
 import json
 from keras import backend as K ##https://github.com/fchollet/keras/issues/2681
 
-K.set_image_dim_ordering('th')
-
+#K.set_image_dim_ordering('th')
 ############################ GLOBAL VARIABLES ################################
-DATA_FILE = 'img_data.pkl' # how to save images to pkl
+DATA_FILE = 'img_data.pkl'
 SAVED_WEIGHTS = "Class_4.h5"
 NUM_CLASS = 4
 NUM_TRAIN_IMG = 2550
@@ -53,7 +52,8 @@ model.add(Dropout(0.25))
 
 model.add(Flatten())
 # Note: Keras does automatic shape inference.
-model.add(Dense(256))
+model.add(Dense(256)) # overflow error
+
 model.add(Activation('relu'))
 model.add(Dropout(0.5))
 
@@ -67,13 +67,17 @@ model.compile(loss='categorical_crossentropy',
               optimizer=sgd,
               metrics=['accuracy'])
 # starts training
-model.fit(training_inputs, training_results, nb_epoch=150, batch_size=32)
+model.fit(training_inputs, training_results, nb_epoch=2, batch_size=32)
 #################################################################################
 
 ############################ SAVE MODEL #########################################
 json_string = model.to_json()
-with open('model.json', 'w') as outfile:
-    json.dump(json_string, outfile)
+with open("model.json", "w") as outfile:
+    outfile.write(json_string)
+
+#with open('model.json', 'w') as outfile:
+#    json.dump(json_string, outfile) #json.dump leads to json string error when load
+
 
 model.save_weights(SAVED_WEIGHTS) # save weights
 #################################################################################
@@ -83,6 +87,3 @@ score = model.evaluate(X_test, y_test, batch_size=16)
 
 print score
 #################################################################################
-
-
-
